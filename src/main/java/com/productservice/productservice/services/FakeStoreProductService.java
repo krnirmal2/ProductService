@@ -14,6 +14,7 @@ import java.util.List;
 public class FakeStoreProductService implements ProductService {
     //    String getProductUrl = "https://fakestoreapi.com/products/1";
     String getAllProductUrl = "https://fakestoreapi.com/products";
+    String createProductUrl = "https://fakestoreapi.com/products";
     String getProductUrl = "https://fakestoreapi.com/products/{id}";// for variable id we can just use variable in curly
     //braces
     private RestTemplateBuilder restTemplateBuilder;
@@ -72,14 +73,19 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
+    public GenericProductDto createProduct(GenericProductDto genericProductDto) {
+        // step 4
+        // create the product and we will pass the parameter of requestDto(genericProductDto) and responseDtos (FakeStoreProductDtos)
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<FakeStoreProductDtos> responseEntity = restTemplate.postForEntity(createProductUrl, genericProductDto, FakeStoreProductDtos.class);
+        return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(responseEntity.getBody()); // getting the body that send as json from request
+    }
+    @Override
     public void deleteProductById() {
 
     }
 
-    @Override
-    public void createProduct() {
 
-    }
 
     @Override
     public void updateProduct() {
