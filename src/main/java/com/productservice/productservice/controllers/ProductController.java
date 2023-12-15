@@ -2,12 +2,15 @@ package com.productservice.productservice.controllers;
 
 
 import com.productservice.productservice.dtos.FakeStoreProductDtos;
+import com.productservice.productservice.dtos.GenericProductDto;
 import com.productservice.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")// this is the base endpoint for all the controller in this class
@@ -32,7 +35,8 @@ public class ProductController {
         return productService.getProductById(id);
     }
     @GetMapping
-     public void getAllProduct(){
+     public List<GenericProductDto> getAllProduct(){
+        return productService.getAllProduct();
 
     }
      public void deleteProductById(){

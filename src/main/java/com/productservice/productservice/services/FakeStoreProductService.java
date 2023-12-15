@@ -7,17 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service("fakeStoreProductService") // it means initialise the onject of ProductService
 public class FakeStoreProductService implements ProductService {
     //    String getProductUrl = "https://fakestoreapi.com/products/1";
+    String getAllProductUrl = "https://fakestoreapi.com/products";
     String getProductUrl = "https://fakestoreapi.com/products/{id}";// for variable id we can just use variable in curly
     //braces
-
     private RestTemplateBuilder restTemplateBuilder;
     //create constructor for builder design pattern
-
-    RestTemplate restTemplate = restTemplateBuilder.build();//for rest Api get/post/delete option
-
 
     public FakeStoreProductService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplateBuilder = restTemplateBuilder;
@@ -26,10 +26,10 @@ public class FakeStoreProductService implements ProductService {
     @Override
     public FakeStoreProductDtos getProductById(Long Id) {
         // RestTemplate
+        RestTemplate restTemplate = restTemplateBuilder.build();//for rest Api get/post/delete option
 
         // get call put url , response, variable
         ResponseEntity<FakeStoreProductDtos> responseEntity = restTemplate.getForEntity(getProductUrl, FakeStoreProductDtos.class, Id);
-
 
 //       step2
         // so as we get the fakeStore product dtos as more tight couple
@@ -38,8 +38,6 @@ public class FakeStoreProductService implements ProductService {
         // add one more extra dtos for generic pupose and passed the product dtos
         FakeStoreProductDtos fakeStoreProductDtos = new FakeStoreProductDtos();
         convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDtos);
-
-
         return responseEntity.getBody();
     }
 
@@ -55,7 +53,21 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public void getAllProduct() {
+    public List<GenericProductDto> getAllProduct() {
+        //step3
+        // here we will use java generic https://www.baeldung.com/java-type-erasure
+        //we need to find the all the list of product and each product having different feild so we
+        // need array of FakeStoreProductDtos to collect all the list of product FakeStoreProductDtos[].class
+        RestTemplate restTemplate = restTemplateBuilder.build();//for rest Api get/post/delete option
+
+        ResponseEntity<FakeStoreProductDtos[]> responseEntity = restTemplate.getForEntity(getAllProductUrl, FakeStoreProductDtos[].class);
+
+        List<GenericProductDto> result = new ArrayList<>();
+        List<FakeStoreProductDtos> fakeStoreProductDtosList = List.of(responseEntity.getBody());
+        for (FakeStoreProductDtos fakeStoreProductDto : fakeStoreProductDtosList) {
+            result.add(convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDto));
+        }
+        return result;
 
     }
 
