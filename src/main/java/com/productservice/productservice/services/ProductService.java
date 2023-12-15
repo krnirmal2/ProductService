@@ -10,6 +10,6 @@ public interface ProductService {
     public FakeStoreProductDtos getProductById(Long Id);
     public List<GenericProductDto> getAllProduct();
     public void deleteProductById();
-    public void createProduct();
+    public GenericProductDto createProduct(GenericProductDto genericProductDto);
     public void updateProduct();
 }
