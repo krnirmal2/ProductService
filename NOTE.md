@@ -21,7 +21,8 @@
      @ResponseBody() // this will help to give what we just send value in the body not other traces
 
 18. if you deLombok the @GETTER then it will replace the code behind it was implemented  and like wise others methods also
-19. 
+19. @Data ,@Builder @AllArgConstruct all are essentiall lomvok method use
+20. 
 20. 
 21. 
 22. 
