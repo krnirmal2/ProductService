@@ -22,7 +22,13 @@
 
 18. if you deLombok the @GETTER then it will replace the code behind it was implemented  and like wise others methods also
 19. @Data ,@Builder @AllArgConstruct all are essentiall lomvok method use
-20. 
+20. CLASS: Finishing API's
+21.     CREATE  a class to integrating third party Api like adaptor design pattern but as an class not interface
+22.     Create application.property key value pair and use in place of url with @value annotation and pass the value to constructor
+23.     to initialise the things 
+24.     change server port 
+25.     Read protobuf inplace serialisation and deserialisation
+21.      
 20. 
 21. 
 22. 

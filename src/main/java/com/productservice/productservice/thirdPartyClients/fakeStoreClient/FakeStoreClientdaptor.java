@@ -6,6 +6,7 @@ import com.productservice.productservice.exceptions.ProductNotFoundException;
 // import com.productservice.productservice.thirdPartyClients.ThirdPartyInterface;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +29,20 @@ public class FakeStoreClientdaptor { // NOTE 33: remove the ThirdPartyInterface 
   // as GenericProductDto is our internal implementation
   // so we will change all the return type from GenericProductDto to FakeStoreProductDtos and do the
   // necessay steps
-  // here we will remove all the  url mapping
 
-  String getAllProductUrl = "https://fakestoreapi.com/products";
-  String createProductUrl = "https://fakestoreapi.com/products";
+  /* String getAllProductUrl = "https://fakestoreapi.com/products";
+   String createProductUrl = "https://fakestoreapi.com/products";
+  */
+
+  private String fakeStoreUrl;
+  private String pathForProducts;
+  String getAllProductUrl = fakeStoreUrl + pathForProducts;
+  String createProductUrl = fakeStoreUrl + pathForProducts;
+
   String getProductUrl =
-      "https://fakestoreapi.com/products/{id}"; // for variable id we can just use variable in curly
+      fakeStoreUrl + pathForProducts + "/{id}"; // for variable id we can just use variable in curly
   String deleteByProductId =
-      "https://fakestoreapi.com/products/{id}"; // for variable id we can just use variable in curly
+      fakeStoreUrl + pathForProducts + "/{id}"; // for variable id we can just use variable in curly
   // braces
   private RestTemplateBuilder
       restTemplateBuilder; // he RestTemplate class is a central class in Spring that simplifies
@@ -45,8 +52,18 @@ public class FakeStoreClientdaptor { // NOTE 33: remove the ThirdPartyInterface 
   // and it can handle request and response conversions using message convert
   // create constructor for builder design pattern
 
-  public FakeStoreClientdaptor(RestTemplateBuilder restTemplateBuilder) {
+  //  NOTE 34: we will use the application.properties key value pair for better
+  //  extensiblity and modification
+  // @Value will take the variable value and store corresponding variable in the below
+  public FakeStoreClientdaptor(
+      RestTemplateBuilder restTemplateBuilder,
+      @Value("${fakestore.api.url}") String fakeStoreUrl,
+      @Value("${fakestore.api.paths.products}") String pathForProducts) {
     this.restTemplateBuilder = restTemplateBuilder;
+    this.getAllProductUrl = fakeStoreUrl + pathForProducts;
+    this.createProductUrl = fakeStoreUrl + pathForProducts;
+    this.getProductUrl = fakeStoreUrl + pathForProducts + "/{id}";
+    this.deleteByProductId = fakeStoreUrl + pathForProducts + "/{id}";
   }
 
   //    @Override
