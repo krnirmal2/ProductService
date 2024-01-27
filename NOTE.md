@@ -13,8 +13,12 @@
 11. NOTE: WE HAVE TO GIVE A BEAN NAME EACH SERVICE CLASS WHEN IMPLEMENTED VIA INTERFACE
 12. AND PASSED THE BEAN NAME WHEN CALL FROM THE CONTROLLER
 13. @Qualifier("fakeStoreProductService") is defined that which service object we need in controller
-
-
+14.    RestTemplate restTemplate = restTemplateBuilder.build(); // TODO: BUILDER DESGIN PATTERN NOTE   THIS METHOD USE BUILDER DESIGN PATTERN
+15. create a controller service"@ControllerAdvice "which will handle all the exception from the all the class
+16. and in this above class we will handle different type of handler method for each specific class
+17.  @ExceptionHandler(ProductNotFoundException.class)
+     @ResponseStatus(HttpStatus.NOT_FOUND) // this will change the status code of the exception
+     @ResponseBody() // this will help to give what we just send value in the body not other traces
 // Three way of Dependency Injection
 1. Constructor injection // MOST USED AS WE HAVE IMPLEMENTED IN THE PRODUCT CONTROLLER
 2. Field Injection  // NOT RECOMENDEND USING @AUTOWIRED
