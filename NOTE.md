@@ -19,7 +19,13 @@
 17.  @ExceptionHandler(ProductNotFoundException.class)
      @ResponseStatus(HttpStatus.NOT_FOUND) // this will change the status code of the exception
      @ResponseBody() // this will help to give what we just send value in the body not other traces
-// Three way of Dependency Injection
+
+18. if you deLombok the @GETTER then it will replace the code behind it was implemented  and like wise others methods also
+19. 
+20. 
+21. 
+22. 
+23. // Three way of Dependency Injection
 1. Constructor injection // MOST USED AS WE HAVE IMPLEMENTED IN THE PRODUCT CONTROLLER
 2. Field Injection  // NOT RECOMENDEND USING @AUTOWIRED
 3. Setter Injection

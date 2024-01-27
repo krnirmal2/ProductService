@@ -2,11 +2,10 @@ package com.productservice.productservice.services;
 
 import com.productservice.productservice.dtos.FakeStoreProductDtos;
 import com.productservice.productservice.dtos.GenericProductDto;
+import com.productservice.productservice.exceptions.ProductNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import com.productservice.productservice.exceptions.ProductNotFoundException;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -53,9 +52,9 @@ public class FakeStoreProductService implements ProductService {
     // add one more extra dtos for generic pupose and passed the product dtos
     FakeStoreProductDtos fakeStoreProductDtos = new FakeStoreProductDtos();
 
-    fakeStoreProductDtos=  responseEntity.getBody();
-    if(fakeStoreProductDtos == null){
-      throw new ProductNotFoundException( Id);
+    fakeStoreProductDtos = responseEntity.getBody();
+    if (fakeStoreProductDtos == null) {
+      throw new ProductNotFoundException(Id);
     }
     return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDtos);
   }
@@ -69,7 +68,6 @@ public class FakeStoreProductService implements ProductService {
     genericProductDto.setCategory(fakeStoreProductDtos.getCategory());
     genericProductDto.setPrice(fakeStoreProductDtos.getPrice());
     genericProductDto.setImage(fakeStoreProductDtos.getImage());
-
 
     return genericProductDto;
   }
@@ -87,7 +85,8 @@ public class FakeStoreProductService implements ProductService {
         restTemplate.getForEntity(getAllProductUrl, FakeStoreProductDtos[].class);
 
     List<GenericProductDto> result = new ArrayList<>();
-    List<FakeStoreProductDtos> fakeStoreProductDtosList = List.of(Objects.requireNonNull(responseEntity.getBody()));
+    List<FakeStoreProductDtos> fakeStoreProductDtosList =
+        List.of(Objects.requireNonNull(responseEntity.getBody()));
     for (FakeStoreProductDtos fakeStoreProductDto : fakeStoreProductDtosList) {
       result.add(
           convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDto));
@@ -100,7 +99,9 @@ public class FakeStoreProductService implements ProductService {
     // NOTE : step 4
     // create the product and we will pass the parameter of requestDto(genericProductDto) and
     // responseDtos (FakeStoreProductDtos)
-    RestTemplate restTemplate = restTemplateBuilder.build(); // TODO: BUILDER DESGIN PATTERN NOTE   THIS METHOD USE BUILDER DESIGN PATTERN
+    RestTemplate restTemplate =
+        restTemplateBuilder
+            .build(); // TODO: BUILDER DESGIN PATTERN NOTE   THIS METHOD USE BUILDER DESIGN PATTERN
     // IN ORDER TO COMMUNICATE WITH EXTERNAL AND WE CAN SET WHAT EVER WE WANT LIKE WEB CLIENT
     ResponseEntity<FakeStoreProductDtos> responseEntity =
         restTemplate.postForEntity(createProductUrl, genericProductDto, FakeStoreProductDtos.class);
@@ -112,7 +113,7 @@ public class FakeStoreProductService implements ProductService {
   public GenericProductDto deleteProductById(Long id) {
     RestTemplate restTemplate = restTemplateBuilder.build();
 
-    //NOTE :  step 5
+    // NOTE :  step 5
     // we have changed the getForEntity inbuild method to delete the item because we have
     // return the FakeStoreProductService object to response ,
     RequestCallback requestCallback =
@@ -129,8 +130,5 @@ public class FakeStoreProductService implements ProductService {
   }
 
   @Override
-  public void updateProduct() {
-
-
-  }
+  public void updateProduct() {}
 }

@@ -1,14 +1,10 @@
 package com.productservice.productservice.controllers;
 
-import com.productservice.productservice.dtos.ExceptionDto;
-import com.productservice.productservice.dtos.FakeStoreProductDtos;
 import com.productservice.productservice.dtos.GenericProductDto;
 import com.productservice.productservice.exceptions.ProductNotFoundException;
 import com.productservice.productservice.services.ProductService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,8 +24,8 @@ public class ProductController {
   // parameter or key that need to send
   // from the restApi
   @GetMapping("/{id}")
-  public GenericProductDto getProductById(
-      @PathVariable("id") Long id) throws ProductNotFoundException { // passed the id as variable
+  public GenericProductDto getProductById(@PathVariable("id") Long id)
+      throws ProductNotFoundException { // passed the id as variable
 
     // call the FakeStoreProductService  getProductById() method service
 
@@ -58,33 +54,33 @@ public class ProductController {
 
   public void updateProduct() {}
 
-/*
+  /*
 
-  //NOTE 11 : ONE WAY OF HANDLING EXCEPTION
-  // we should handle the exception when any class throw and exception
-  // thats why we need to use @ExceptionHandler Annotation which tells the
-  // below method is exception handler
-  // this handler will handler "ProductNotFoundException"
-  // when ever in this paritcular controller class face any problem
-  @ExceptionHandler(ProductNotFoundException.class) //// also need to provide the type which we it should be handle in the parameter
-  private ResponseEntity<ExceptionDto> handleProductNotFoundException(ProductNotFoundException productNotFoundException){
-//    System.out.printf("product id is not not availble");
+    //NOTE 11 : ONE WAY OF HANDLING EXCEPTION
+    // we should handle the exception when any class throw and exception
+    // thats why we need to use @ExceptionHandler Annotation which tells the
+    // below method is exception handler
+    // this handler will handler "ProductNotFoundException"
+    // when ever in this paritcular controller class face any problem
+    @ExceptionHandler(ProductNotFoundException.class) //// also need to provide the type which we it should be handle in the parameter
+    private ResponseEntity<ExceptionDto> handleProductNotFoundException(ProductNotFoundException productNotFoundException){
+  //    System.out.printf("product id is not not availble");
 
-    //NOTE 13:
-    // change the return type to ExceptionDto
-    // which will provide a specific error message to the client
-    //first create excption dtos and then responseEntity for error code change
-   ExceptionDto exceptionDto = new ExceptionDto();
-   exceptionDto.setMessage(productNotFoundException.getMessage());
-   exceptionDto.setHttpStatus(HttpStatus.NOT_FOUND);
+      //NOTE 13:
+      // change the return type to ExceptionDto
+      // which will provide a specific error message to the client
+      //first create excption dtos and then responseEntity for error code change
+     ExceptionDto exceptionDto = new ExceptionDto();
+     exceptionDto.setMessage(productNotFoundException.getMessage());
+     exceptionDto.setHttpStatus(HttpStatus.NOT_FOUND);
 
-    ResponseEntity responseEntity = new ResponseEntity(exceptionDto,HttpStatus.NOT_FOUND);
-    //NOTE 14:
-    //change return type from exceptionDto to responseEntity
-   return responseEntity;
+      ResponseEntity responseEntity = new ResponseEntity(exceptionDto,HttpStatus.NOT_FOUND);
+      //NOTE 14:
+      //change return type from exceptionDto to responseEntity
+     return responseEntity;
 
 
-  }
+    }
 
- */
+   */
 }
