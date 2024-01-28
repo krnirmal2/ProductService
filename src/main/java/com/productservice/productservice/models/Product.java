@@ -10,8 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Product extends BaseModel {
-  @Id
-  private String title;
+  @Id private String title;
   private String description;
   private int price;
   private String image;
@@ -22,6 +21,5 @@ public class Product extends BaseModel {
         M    <--   1
   */
 
-  @ManyToOne
-  private Category category; //DERIVED ATTRIBUTE AND NEED TO CARDINALITY WITH PRODUCT
+  @ManyToOne private Category category; // DERIVED ATTRIBUTE AND NEED TO CARDINALITY WITH PRODUCT
 }
