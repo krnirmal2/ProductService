@@ -10,7 +10,10 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Product extends BaseModel {
-  @Id private String title;
+//  @Id NOTE 54 : comment out for getting error
+          //   getting error  Error creating bean with name 'productServiceApplication': Unsatisfied dependency expressed through
+          //   constructor parameter 0: Error creating bean with name 'categoryRepository' defined in com
+  private String title;
   private String description;
   private int price;
   private String image;
@@ -19,7 +22,11 @@ public class Product extends BaseModel {
         1    -->   1
       PRODUCT  :  CATEGORY
         M    <--   1
+
+    Means -- Category id should be present in Product side as product is more == >
+    here -- @ManyToOne should be present in product side
   */
 
-  @ManyToOne private Category category; // DERIVED ATTRIBUTE AND NEED TO CARDINALITY WITH PRODUCT
+  @ManyToOne()
+  private Category category; // DERIVED ATTRIBUTE AND NEED TO CARDINALITY WITH PRODUCT
 }
