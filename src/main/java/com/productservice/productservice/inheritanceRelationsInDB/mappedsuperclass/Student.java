@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 @Entity(name = "ms_student")
 public class Student extends User {
-    private double psp;
+  private double psp;
 }

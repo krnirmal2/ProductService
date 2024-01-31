@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 @Entity(name = "tpc_ta")
 public class Ta extends User {
-    private String ta_sessions;
+  private String ta_sessions;
 }

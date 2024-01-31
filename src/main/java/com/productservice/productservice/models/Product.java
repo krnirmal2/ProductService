@@ -1,7 +1,6 @@
 package com.productservice.productservice.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,9 +9,10 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Product extends BaseModel {
-//  @Id NOTE 54 : comment out for getting error
-          //   getting error  Error creating bean with name 'productServiceApplication': Unsatisfied dependency expressed through
-          //   constructor parameter 0: Error creating bean with name 'categoryRepository' defined in com
+  //  @Id NOTE 54 : comment out for getting error
+  //   getting error  Error creating bean with name 'productServiceApplication': Unsatisfied
+  // dependency expressed through
+  //   constructor parameter 0: Error creating bean with name 'categoryRepository' defined in com
   private String title;
   private String description;
   private int price;
@@ -27,6 +27,5 @@ public class Product extends BaseModel {
     here -- @ManyToOne should be present in product side
   */
 
-  @ManyToOne()
-  private Category category; // DERIVED ATTRIBUTE AND NEED TO CARDINALITY WITH PRODUCT
+  @ManyToOne() private Category category; // DERIVED ATTRIBUTE AND NEED TO CARDINALITY WITH PRODUCT
 }

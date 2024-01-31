@@ -8,6 +8,5 @@ import lombok.Setter;
 @Setter
 @Entity(name = "tpc_mentor") // change manual name here
 public class Mentor extends User {
-    private double avgRating;
-
+  private double avgRating;
 }
