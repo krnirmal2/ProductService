@@ -21,18 +21,37 @@
     @ResponseBody() // this will help to give what we just send value in the body not other traces
 20. if you deLombok the @GETTER then it will replace the code behind it was implemented and like wise others methods also
 21. @Data ,@Builder @AllArgConstruct all are essentiall lomvok method use
-22. CLASS: Finishing API's
-23.     CREATE  a class to integrating third party Api like adaptor design pattern but as an class not interface
-24.     Create application.property key value pair and use in place of url with @value annotation and pass the value to constructor
-25.     to initialise the things 
-26.     change server port 
-27.     Read protobuf inplace serialisation and deserialisation
-28. 
-29.  NOTE 39 : CARDINALITY BTWN PRODUCT AND CATEGORY
-     1 -->   1
-     PRODUCT  :  CATEGORY
-     M    <-- 1
-30
+
+23. CLASS: Finishing API's
+
+             CREATE  a class to integrating third party Api like adaptor design pattern but as an class not interface
+            Create application.property key value pair and use in place of url with @value annotation and pass the value to constructor
+            to initialise the things 
+            change server port 
+            Read protobuf inplace serialisation and deserialisation
+    28.  
+        29. CLASS: Advanced Database Operations and DB Migrations
+           
+                 {Spring JPA, Sql connector, dendency in pom, cardinality between table, reserved key word Error resolved"
+                NOTE 39 : CARDINALITY BTWN PRODUCT AND CATEGORY
+                 1 -->   1
+                 PRODUCT  :  CATEGORY
+                 M    <-- 1
+30. CLASS : Database Queries, Inheritance & Relations
+    
+        Inheritance of db single table, join table, table per class, mappedSuperclas
+        @Qualifier = for mentioned/point out a  particular class using named inside its parameter
+        @Repository = to defined a class that is a repository which will connect to JPA for connectiong database
+        @PrimaryKeyJoinColumn(name = "user id")//NOTE 49 : this is used fir join between user table
+        @GeneratedValue(strategy = GenerationType.AUTO)// generated incremental id
+        @MappedSuperclass // NOTE 36 : passed the attribute to the child class
+        @Inheritance(strategy = InheritanceType.JOINED)//strategy of inheritance is table per class
+        @GeneratedValue(generator = "uuidGenerator") // OWN GENERATOR
+        @Column(name = "id",columnDefinition = "binary(16)",nullable = false,updatable = false)
+        // use coloumn name and binary 16B format with not nullable and not updatable UUID as it is primary key
+        ManyToOne private Category category; // DERIVED ATTRIBUTE AND NEED TO CARDINALITY WITH PRODUCT
+![img.png](img.png)
+
    
     
 32. // Three way of Dependency Injection
