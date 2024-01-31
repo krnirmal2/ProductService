@@ -163,5 +163,8 @@ public class ProductServiceApplication implements CommandLineRunner {
     product.setDescription("Best iPhone ever");
     product.setCategory(savedCategoy);
     Product savedProduct = productRepository.save(product);
+
+    // Deleting product
+    //    priceRepository.delete(savedProduct);
   }
 }

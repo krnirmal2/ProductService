@@ -1,7 +1,6 @@
 package com.productservice.productservice.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +14,7 @@ public class Product extends BaseModel {
   //   constructor parameter 0: Error creating bean with name 'categoryRepository' defined in com
   private String title;
   private String description;
-  private int price;
+  private int prices;
   private String image;
   /*
    NOTE 39 : CARDINALITY BTWN PRODUCT AND CATEGORY
@@ -28,4 +27,16 @@ public class Product extends BaseModel {
   */
 
   @ManyToOne() private Category category; // DERIVED ATTRIBUTE AND NEED TO CARDINALITY WITH PRODUCT
+
+  /*
+   NOTE 63 : CARDINALITY BTWN PRODUCT AND PRICE
+        1    -->   1
+      PRODUCT  :  PRICE
+        1    <--   1
+
+  */
+  @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+  private Price price;
+
+  private int inventoryCount;
 }
