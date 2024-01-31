@@ -164,7 +164,8 @@ public class ProductServiceApplication implements CommandLineRunner {
     product.setCategory(savedCategoy);
     Product savedProduct = productRepository.save(product);
 
-    // Deleting product
-    //    priceRepository.delete(savedProduct);
+    // NOTE 64 :
+    //   Deleting product
+    //    priceRepository.deleteById(UUID.fromString("acefc21b-175c-4e04-b396-ad0e19c4550d"));
   }
 }

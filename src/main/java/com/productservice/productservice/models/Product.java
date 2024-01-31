@@ -35,7 +35,13 @@ public class Product extends BaseModel {
         1    <--   1
 
   */
-  @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+  @OneToOne(
+      cascade = {
+        CascadeType.REMOVE,
+        CascadeType
+            .PERSIST // from a parent to a child entity. When we save the Product entity, the price
+        // entity will also get saved.
+      }) // casecade will delete the depended element in price also
   private Price price;
 
   private int inventoryCount;
