@@ -2,11 +2,13 @@ package com.productservice.productservice;
 
 import com.productservice.productservice.inheritanceRelationsInDB.singletable.*;
 import com.productservice.productservice.models.Category;
-import com.productservice.productservice.models.Price;
 import com.productservice.productservice.models.Product;
 import com.productservice.productservice.repository.CategoryRepository;
 import com.productservice.productservice.repository.PriceRepository;
 import com.productservice.productservice.repository.ProductRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -104,6 +106,9 @@ public class ProductServiceApplication implements CommandLineRunner {
   // NOTE 43:
   // for running SrpingBoot jpa
   @Override
+  //  @Transactional// NOTE 66 : when we implement lock and the query will run as a single query And
+  // commented if it is Eager Fetching
+
   public void run(String... args) throws Exception {
     // NOTE 54:
     // helps
@@ -146,26 +151,110 @@ public class ProductServiceApplication implements CommandLineRunner {
             }
 
     */
+    /*
+       //      NOTE 62:
+       //      Example of price
+       Price price = new Price();
+       price.setCurrency("INR");
+       price.setValue(100000);
+       priceRepository.save(price);
 
-    //      NOTE 62:
-    //      Example of price
-    Price price = new Price();
-    price.setCurrency("INR");
-    price.setValue(100000);
-    priceRepository.save(price);
+       Category category = new Category();
+       category.setName("Apple Devices");
+       Category savedCategoy = categoryRepository.save(category);
 
+       Product product = new Product();
+       product.setTitle("iPhone 15 pro");
+       product.setDescription("Best iPhone ever");
+       product.setCategory(savedCategoy);
+       Product savedProduct = productRepository.save(product);
+
+       // NOTE 64 :
+       //   Deleting product
+       //
+       //    priceRepository.deleteById(UUID.fromString("acefc21b-175c-4e04-b396-ad0e19c4550d"));
+    */
+
+    /* // Note 65
+    // Lazy and Eager fetch
     Category category = new Category();
-    category.setName("Apple Devices");
-    Category savedCategoy = categoryRepository.save(category);
+    category.setName("Apple Device");
+    Category savedCategory = categoryRepository.save(category);
 
-    Product product = new Product();
-    product.setTitle("iPhone 15 pro");
-    product.setDescription("Best iPhone ever");
-    product.setCategory(savedCategoy);
-    Product savedProduct = productRepository.save(product);
+    Price price = new Price();
+    price.setValue(100000);
+    price.setCurrency("INR");
 
-    // NOTE 64 :
-    //   Deleting product
-    //    priceRepository.deleteById(UUID.fromString("acefc21b-175c-4e04-b396-ad0e19c4550d"));
+    Product product1 = new Product();
+    product1.setPrice(price);
+    product1.setTitle("iPhone 15 pro max");
+    product1.setDescription("Best iPhone ever.");
+    product1.setImage("IMG");
+    product1.setCategory(category);
+    Product savedProduct = productRepository.save(product1);
+
+    Price price1 = new Price();
+    price1.setValue(100000);
+    price1.setCurrency("INR");
+
+    Product product2 = new Product();
+    product2.setPrice(price1);
+    product2.setTitle("iPhone 15 pro max");
+    product2.setDescription("Best iPhone ever.");
+    product2.setImage("IMG");
+    product2.setCategory(category);
+    Product savedProduct1 = productRepository.save(product2);
+
+    // Need to set different price otherwise we will get error
+
+    Price price2 = new Price();
+    price2.setValue(100000);
+    price2.setCurrency("INR");
+
+    Product product3 = new Product();
+    product3.setPrice(price2);
+    product3.setTitle("iPhone 15 pro max");
+    product3.setDescription("Best iPhone ever.");
+    product3.setImage("IMG");
+    product3.setCategory(category);
+    Product savedProduct2 = productRepository.save(product3);
+    */
+
+    //    NOTE 66:
+    // IMPLEMENTATION OF LAZY FETCHING
+    // lazy fetching will fetch the product when it require with out join that we
+    // can see from the   private List<Product> products; it is lazy
+    // Three point in Lazy loading
+    //      1. it will fetch the data when required
+    //              2.    when explicitly with @Transactional then it will have some Query will be
+    // there
+    //
+    Optional<Category> optionalCategory =
+        categoryRepository.findById(
+            UUID.fromString("ecfa76b7-adbc-416f-aa5c-4222ae832419")); // copy the UUID of category
+    Category category = optionalCategory.get();
+    /*    NOTE 66: if we comment the below code
+                then select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+                will run and only category item will fetch not its corresponding product
+    */
+    // And when uncomment the below code we will get the join query as well and all the list of
+    // product
+    // along with categories
+    // select
+    // p1_0.category_id,p1_0.id,p1_0.description,p1_0.image,p1_0.inventory_count,p2_0.id,p2_0.currency,p2_0.value,p1_0.prices,p1_0.title from product p1_0 left join price p2_0 on p2_0.id=p1_0.price_id where p1_0.category_id=?
+
+    List<Product> products = category.getProducts();
+
+    for (Product product : products) {
+      System.out.println(product.getTitle());
+    }
+
+    /* NOTE 67:
+                    implement Eager Fetching by doing
+                   remove @Transactional and make product as Eager by "fetch = jakarta.persistence.FetchType.EAGER"
+                   and Query will run
+                   select c1_0.id,c1_0.name,p1_0.category_id,p1_0.id,p1_0.description,p1_0.image,p1_0.inventory_count,p2_0.id,p2_0.currency,p2_0.value,p1_0.prices,p1_0.title from category c1_0 left join product p1_0 on c1_0.id=p1_0.category_id left join price p2_0 on p2_0.id=p1_0.price_id where c1_0.id=?
+
+    */
   }
 }
