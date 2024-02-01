@@ -52,6 +52,12 @@
         ManyToOne private Category category; // DERIVED ATTRIBUTE AND NEED TO CARDINALITY WITH PRODUCT
 ![img.png](img.png)
 
+31.CLASS : Database - Cardinalities & N+1 problem
+       
+          Eager and Lazy implementation and @Trabsactional and JPA query sql implementation
+            and all the complex query 
+          
+
    
     
 32. // Three way of Dependency Injection

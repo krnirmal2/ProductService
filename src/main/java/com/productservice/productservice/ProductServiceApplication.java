@@ -2,11 +2,9 @@ package com.productservice.productservice;
 
 import com.productservice.productservice.inheritanceRelationsInDB.singletable.*;
 import com.productservice.productservice.models.Category;
-import com.productservice.productservice.models.Product;
 import com.productservice.productservice.repository.CategoryRepository;
 import com.productservice.productservice.repository.PriceRepository;
 import com.productservice.productservice.repository.ProductRepository;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.boot.CommandLineRunner;
@@ -234,21 +232,21 @@ public class ProductServiceApplication implements CommandLineRunner {
             UUID.fromString("ecfa76b7-adbc-416f-aa5c-4222ae832419")); // copy the UUID of category
     Category category = optionalCategory.get();
     /*    NOTE 66: if we comment the below code
-                then select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
-                will run and only category item will fetch not its corresponding product
+                    then select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
+                    will run and only category item will fetch not its corresponding product
+
+        // And when uncomment the below code we will get the join query as well and all the list of
+        // product
+        // along with categories
+        // select
+        // p1_0.category_id,p1_0.id,p1_0.description,p1_0.image,p1_0.inventory_count,p2_0.id,p2_0.currency,p2_0.value,p1_0.prices,p1_0.title from product p1_0 left join price p2_0 on p2_0.id=p1_0.price_id where p1_0.category_id=?
+
+        List<Product> products = category.getProducts();
+
+        for (Product product : products) {
+          System.out.println(product.getTitle());
+        }
     */
-    // And when uncomment the below code we will get the join query as well and all the list of
-    // product
-    // along with categories
-    // select
-    // p1_0.category_id,p1_0.id,p1_0.description,p1_0.image,p1_0.inventory_count,p2_0.id,p2_0.currency,p2_0.value,p1_0.prices,p1_0.title from product p1_0 left join price p2_0 on p2_0.id=p1_0.price_id where p1_0.category_id=?
-
-    List<Product> products = category.getProducts();
-
-    for (Product product : products) {
-      System.out.println(product.getTitle());
-    }
-
     /* NOTE 67:
                     implement Eager Fetching by doing
                    remove @Transactional and make product as Eager by "fetch = jakarta.persistence.FetchType.EAGER"
@@ -256,5 +254,42 @@ public class ProductServiceApplication implements CommandLineRunner {
                    select c1_0.id,c1_0.name,p1_0.category_id,p1_0.id,p1_0.description,p1_0.image,p1_0.inventory_count,p2_0.id,p2_0.currency,p2_0.value,p1_0.prices,p1_0.title from category c1_0 left join product p1_0 on c1_0.id=p1_0.category_id left join price p2_0 on p2_0.id=p1_0.price_id where c1_0.id=?
 
     */
+
+    /* NOTE 69:
+       fetch all the product
+
+    List<Product> products = productRepository.findAll();
+     */
+    /* NOTE 70:
+      fetch by title
+
+    List<Product> products = productRepository.findByTitle("iPhone 15 pro max");
+    */
+    /* NOTE 73:
+           fetch by title and description
+
+         List<Product> products = productRepository.findByTitleAndDescription("iPhone 15 pro max","Best iPhone ever.");
+       for (Product product : products) {
+         System.out.println(products.toString());
+       }
+    */
+
+    /*
+       todo 74:
+        // just read the all this not impmented this
+            category = new Category();
+            category.setName("Samsung");
+            Category category1 = categoryRepository.save(category);
+
+            Price price = new Price();
+            price.setValue(49000);
+            price.setCurrency("INR");
+
+    //        Product product = new Product("Samsung Fold 5", "Samsung's Foldable phone", "XYZ", category, price);
+
+    //        productRepository.save(product);
+
+        List<Product> products1 = productRepository.findAllByPrice_ValueBetween(29000, 50000);
+      */
   }
 }

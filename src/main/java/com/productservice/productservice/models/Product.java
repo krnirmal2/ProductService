@@ -1,12 +1,16 @@
 package com.productservice.productservice.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product extends BaseModel {
   //  @Id NOTE 54 : comment out for getting error
   //   getting error  Error creating bean with name 'productServiceApplication': Unsatisfied
@@ -25,9 +29,7 @@ public class Product extends BaseModel {
     Means -- Category id should be present in Product side as product is more == >
     here -- @ManyToOne should be present in product side
   */
-
   @ManyToOne() private Category category; // DERIVED ATTRIBUTE AND NEED TO CARDINALITY WITH PRODUCT
-
   /*
    NOTE 63 : CARDINALITY BTWN PRODUCT AND PRICE
         1    -->   1
