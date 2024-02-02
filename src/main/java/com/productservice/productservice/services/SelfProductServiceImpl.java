@@ -7,10 +7,9 @@ import com.productservice.productservice.repository.ProductRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-@Primary // NOTE 76: this service will be the primary and no need for qualifer for distinguish in
+// @Primary // NOTE 76: this service will be the primary and no need for qualifer for distinguish in
 // productcontroller
 @Service
 public class SelfProductServiceImpl implements ProductService {
