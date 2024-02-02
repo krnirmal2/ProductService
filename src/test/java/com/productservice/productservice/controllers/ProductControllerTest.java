@@ -19,7 +19,8 @@ public class ProductControllerTest {
   // INJECT THE DEPENDENCY
   @Autowired ProductController productController;
 
-  @MockBean // NOTE 81: we create mocking object for the productservice services to test against actual
+  @MockBean // NOTE 81: we create mocking object for the productservice services to test against
+  // actual
   ProductService productService;
 
   @Test
