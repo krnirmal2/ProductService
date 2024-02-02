@@ -6,12 +6,17 @@ import com.productservice.productservice.exceptions.ProductNotFoundException;
 import com.productservice.productservice.thirdPartyClients.fakeStoreClient.FakeStoreClientdaptor;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Primary;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 // import com.productservice.productservice.thirdPartyClients.fakeStoreClient.FakeStoreAdaptor;
 // import io.micrometer.core.instrument.Meter;
 // import org.springframework.http.HttpMethod;
 // import org.springframework.http.ResponseEntity;
+@Primary
 @Service("fakeStoreProductService") // it means initialise the onject of ProductService
 public class FakeStoreProductService implements ProductService {
   private FakeStoreClientdaptor fakeStoreClientdaptor;
@@ -34,6 +39,11 @@ public class FakeStoreProductService implements ProductService {
     // and it can handle request and response conversions using message convert
     // create constructor for builder design pattern
   */
+  //
+  String getProductUrl =
+      "https://fakestoreapi.com/products/{id}"; // for variable id we can just use variable in curly
+  private RestTemplateBuilder
+      restTemplateBuilder; // he RestTemplate class is a central class in Spring that simplifies
 
   public FakeStoreProductService(FakeStoreClientdaptor fakeStoreClientdaptor) {
     this.fakeStoreClientdaptor = fakeStoreClientdaptor;
@@ -41,28 +51,26 @@ public class FakeStoreProductService implements ProductService {
 
   @Override
   public GenericProductDto getProductById(Long Id) throws ProductNotFoundException {
-    /* // RestTemplate
-      RestTemplate restTemplate = restTemplateBuilder.build(); // for rest Api get/post/delete option
+    // RestTemplate
+    RestTemplate restTemplate = restTemplateBuilder.build(); // for rest Api get/post/delete option
 
-      // get call put url , response, variable
-      ResponseEntity<FakeStoreProductDtos> responseEntity =
-          restTemplate.getForEntity(getProductUrl, FakeStoreProductDtos.class, Id);
+    // get call put url , response, variable
+    ResponseEntity<FakeStoreProductDtos> responseEntity =
+        restTemplate.getForEntity(getProductUrl, FakeStoreProductDtos.class, Id);
 
-      //  NOTE 2 :      step2
-      // so as we get the fakeStore product dtos as more tight couple
-      // to do it more loosly coupled lets  add one more extra abstract layer
-      // so that next we can change what ever next requirement come in product
-      // add one more extra dtos for generic pupose and passed the product dtos
-      FakeStoreProductDtos fakeStoreProductDtos = new FakeStoreProductDtos();
+    //  NOTE 2 :      step2
+    // so as we get the fakeStore product dtos as more tight couple
+    // to do it more loosly coupled lets  add one more extra abstract layer
+    // so that next we can change what ever next requirement come in product
+    // add one more extra dtos for generic pupose and passed the product dtos
+    FakeStoreProductDtos fakeStoreProductDtos = new FakeStoreProductDtos();
 
-      fakeStoreProductDtos = responseEntity.getBody();
-      if (fakeStoreProductDtos == null) {
-        throw new ProductNotFoundException(Id);
-      }
-    return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDtos);
-
-
-      */
+    fakeStoreProductDtos = responseEntity.getBody();
+    if (fakeStoreProductDtos == null) {
+      throw new ProductNotFoundException(Id);
+    }
+    //    return
+    // convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDtos);
 
     /* //NOTE 21:
     // comments earilier code and use fakeStoreAdaptor class

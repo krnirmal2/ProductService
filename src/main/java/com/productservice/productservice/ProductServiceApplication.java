@@ -1,12 +1,9 @@
 package com.productservice.productservice;
 
 import com.productservice.productservice.inheritanceRelationsInDB.singletable.*;
-import com.productservice.productservice.models.Category;
 import com.productservice.productservice.repository.CategoryRepository;
 import com.productservice.productservice.repository.PriceRepository;
 import com.productservice.productservice.repository.ProductRepository;
-import java.util.Optional;
-import java.util.UUID;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -227,10 +224,11 @@ public class ProductServiceApplication implements CommandLineRunner {
     //              2.    when explicitly with @Transactional then it will have some Query will be
     // there
     //
-    Optional<Category> optionalCategory =
-        categoryRepository.findById(
-            UUID.fromString("ecfa76b7-adbc-416f-aa5c-4222ae832419")); // copy the UUID of category
-    Category category = optionalCategory.get();
+    //    Optional<Category> optionalCategory =
+    //        categoryRepository.findById(
+    //            UUID.fromString("ecfa76b7-adbc-416f-aa5c-4222ae832419")); // copy the UUID of
+    // category
+    //    Category category = optionalCategory.get();
     /*    NOTE 66: if we comment the below code
                     then select c1_0.id,c1_0.name from category c1_0 where c1_0.id=?
                     will run and only category item will fetch not its corresponding product

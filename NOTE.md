@@ -54,8 +54,7 @@
 
 31.CLASS : Database - Cardinalities & N+1 problem
        
-          Eager and Lazy implementation and @Trabsactional and JPA query sql implementation
-            and all the complex query 
+           
           
 
    

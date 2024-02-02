@@ -13,7 +13,8 @@ public class ProductController {
   private ProductService productService;
   // constructor injection
   public ProductController(
-      @Qualifier("fakeStoreProductService")
+      @Qualifier("fakeStoreProductService") // NOTE 77: remove this when we want to use @primary
+          // service
           ProductService productService) { // as we have not say product controller that
     // that productService has been annotated with @service than it will give error
     this.productService = productService;
