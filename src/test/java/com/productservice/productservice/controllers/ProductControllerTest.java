@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import javax.inject.Inject;
-
 @SpringBootTest
 public class ProductControllerTest {
   // NOTE 80:
@@ -29,7 +27,8 @@ public class ProductControllerTest {
   ProductService productService;
 
   @Captor
-  private ArgumentCaptor<Long> argumentCaptor; // help to capture the argument what ever you passed to the service
+  private ArgumentCaptor<Long>
+      argumentCaptor; // help to capture the argument what ever you passed to the service
 
   @Test
   @DisplayName("Demo")
@@ -75,24 +74,24 @@ public class ProductControllerTest {
     }
   */
 
-  //NOTE 87: test case for the input may come from t
-//   the controller to the service is less
+  // NOTE 87: test case for the input may come from t
+  //   the controller to the service is less
   // so that's why we
 
-    @Test
-    @DisplayName("testProductControllerCallsProductServiceWithSameProductIdAsInput")
-    void testIfSameInput() throws ProductNotFoundException {
-        //This is the test case to check if productController is passing the same productId to the
-        //productService as the input.
-        Long id = 100L;
+  @Test
+  @DisplayName("testProductControllerCallsProductServiceWithSameProductIdAsInput")
+  void testIfSameInput() throws ProductNotFoundException {
+    // This is the test case to check if productController is passing the same productId to the
+    // productService as the input.
+    Long id = 100L;
 
-        when(productService.getProductById(id)).thenReturn(new GenericProductDto());
+    when(productService.getProductById(id)).thenReturn(new GenericProductDto());
 
-        GenericProductDto genericProductDto =  productController.getProductById(id);
+    GenericProductDto genericProductDto = productController.getProductById(id);
 
-        // verify is act as listener
-        verify(productService).getProductById(argumentCaptor.capture());
+    // verify is act as listener
+    verify(productService).getProductById(argumentCaptor.capture());
 
-        assertEquals(id, argumentCaptor.getValue());
-    }
-    }
+    assertEquals(id, argumentCaptor.getValue());
+  }
+}
