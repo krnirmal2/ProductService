@@ -1,6 +1,7 @@
 package com.productservice.productservice;
 
 import com.productservice.productservice.inheritanceRelationsInDB.singletable.*;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
@@ -49,9 +50,9 @@ public class ProductServiceApplication {
     this.userRepository = userRepository;
   }
   */
-  /* public static void main(String[] args) {
+   public static void main(String[] args) {
     SpringApplication.run(ProductServiceApplication.class, args);
-  }*/
+  }
   /*
   /*  //used to save Mentor value in mentor table of table per table Inheritance
       Mentor mentor = new Mentor();
