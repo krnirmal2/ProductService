@@ -3,14 +3,15 @@ package com.productservice.productservice.services;
 import com.productservice.productservice.dtos.FakeStoreProductDtos;
 import com.productservice.productservice.dtos.GenericProductDto;
 import com.productservice.productservice.exceptions.ProductNotFoundException;
+import com.productservice.productservice.security.JWTObject;
+import com.productservice.productservice.security.TokenValidator;
 import com.productservice.productservice.thirdPartyClients.fakeStoreClient.FakeStoreClientdaptor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 // import com.productservice.productservice.thirdPartyClients.fakeStoreClient.FakeStoreAdaptor;
 // import io.micrometer.core.instrument.Meter;
@@ -20,6 +21,9 @@ import org.springframework.web.client.RestTemplate;
 @Service("fakeStoreProductService") // it means initialise the onject of ProductService
 public class FakeStoreProductService implements ProductService {
   private FakeStoreClientdaptor fakeStoreClientdaptor;
+  // NOTE 23 UP: tokenValidator add to connect the userService to productService for
+  // validate the token
+  private TokenValidator tokenValidator;
   // NOTE 20:
   // we will remove the dependency of url from here as it is moved to
   // third party client class
@@ -45,12 +49,20 @@ public class FakeStoreProductService implements ProductService {
   private RestTemplateBuilder
       restTemplateBuilder; // he RestTemplate class is a central class in Spring that simplifies
 
-  public FakeStoreProductService(FakeStoreClientdaptor fakeStoreClientdaptor) {
+  public FakeStoreProductService(
+      FakeStoreClientdaptor fakeStoreClientdaptor,
+      RestTemplateBuilder restTemplateBuilder,
+      TokenValidator tokenValidator) {
     this.fakeStoreClientdaptor = fakeStoreClientdaptor;
+    this.restTemplateBuilder = restTemplateBuilder;
+    this.tokenValidator = tokenValidator;
   }
 
+  /*
+  NOTE 26UP: comment for userservice call in its duplicate method below
   @Override
-  public GenericProductDto getProductById(Long Id) throws ProductNotFoundException {
+  public GenericProductDto getProductById( String token ,Long Id) throws ProductNotFoundException {
+    System.out.printf("Authurisation token from header of UserService Microservice is : " + token);
     // RestTemplate
     RestTemplate restTemplate = restTemplateBuilder.build(); // for rest Api get/post/delete option
 
@@ -72,11 +84,38 @@ public class FakeStoreProductService implements ProductService {
     //    return
     // convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDtos);
 
-    /* //NOTE 21:
-    // comments earilier code and use fakeStoreAdaptor class
-    return  fakeStoreAdaptor.getProductById(Id);
     */
-    //    NOTE 31:
+  /* //NOTE 21:
+  // comments earilier code and use fakeStoreAdaptor class
+  return  fakeStoreAdaptor.getProductById(Id);
+  */
+  /*
+      //    NOTE 31:
+      return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(
+          fakeStoreClientdaptor.getProductById(Id));
+    }
+  */
+
+  @Override
+  public GenericProductDto getProductById(String token, Long Id) throws ProductNotFoundException {
+    //    NOTE 27 UP:
+    //    create for authenticate token and then send the product details
+    System.out.printf("Authurisation token from header of UserService Microservice is : " + token);
+
+    // This is common validation method which we can call in from any place of the project
+    Optional<JWTObject> jwtObjectOptional = tokenValidator.validateToken(token);
+    if (jwtObjectOptional.isEmpty()) {
+      // reject the token
+      return null;
+    }
+    // Extract the parameter from the token for used to validate this
+    JWTObject jwtObject = jwtObjectOptional.get();
+    Long userId = jwtObject.getUserId();
+    /*
+    if(specialId.isPrsent(Id) && userId != 10){
+       // don't want to allow this requeset
+     }
+     */
     return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(
         fakeStoreClientdaptor.getProductById(Id));
   }

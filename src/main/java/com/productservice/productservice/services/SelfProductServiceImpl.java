@@ -21,7 +21,7 @@ public class SelfProductServiceImpl implements ProductService {
   }
 
   @Override
-  public GenericProductDto getProductById(Long Id) throws ProductNotFoundException {
+  public GenericProductDto getProductById(String token, Long Id) throws ProductNotFoundException {
     // NOTE 75 : from db we need to fetch the data not from the fake store database
     GenericProductDto genericProductDto = new GenericProductDto();
     Optional<Product> optionalProduct =

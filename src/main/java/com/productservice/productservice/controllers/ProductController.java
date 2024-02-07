@@ -5,6 +5,7 @@ import com.productservice.productservice.exceptions.ProductNotFoundException;
 import com.productservice.productservice.services.ProductService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,12 +26,16 @@ public class ProductController {
   // parameter or key that need to send
   // from the restApi
   @GetMapping("/{id}")
-  public GenericProductDto getProductById(@PathVariable("id") Long id)
+  public GenericProductDto getProductById(
+      @RequestHeader(HttpHeaders.AUTHORIZATION)
+          String
+              token, // NOTE 19A : connecting two microservice , here we validate the authorisation
+      @PathVariable("id") Long id)
       throws ProductNotFoundException { // passed the id as variable
 
     // call the FakeStoreProductService  getProductById() method service
 
-    return productService.getProductById(id);
+    return productService.getProductById(token, id);
   }
 
   @GetMapping // get method in post man
