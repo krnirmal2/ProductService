@@ -3,7 +3,11 @@ package com.productservice.productservice.services;
 import com.productservice.productservice.dtos.GenericProductDto;
 import com.productservice.productservice.exceptions.ProductNotFoundException;
 import java.util.List;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 
+@Primary
+@Service
 public interface ProductService {
   public GenericProductDto getProductById(String authToken, Long Id)
       throws ProductNotFoundException; // NOTE 21 UP: add String authToken and refactor each place

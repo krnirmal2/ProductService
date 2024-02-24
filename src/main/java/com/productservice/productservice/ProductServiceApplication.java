@@ -1,11 +1,17 @@
 package com.productservice.productservice;
 
 import com.productservice.productservice.inheritanceRelationsInDB.singletable.*;
+import com.productservice.productservice.repository.CategoryRepository;
+import com.productservice.productservice.repository.PriceRepository;
+import com.productservice.productservice.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProductServiceApplication {
+public class ProductServiceApplication implements CommandLineRunner {
   /*
          implements CommandLineRunner
 
@@ -50,6 +56,22 @@ public class ProductServiceApplication {
     this.userRepository = userRepository;
   }
   */
+
+  // NOTE 95:
+  private final CategoryRepository categoryRepository;
+  private final ProductRepository productRepository;
+  private final PriceRepository priceRepository;
+
+  @Autowired
+  public ProductServiceApplication(
+      @Qualifier("productRepo") ProductRepository productRepository,
+      CategoryRepository categoryRepository,
+      PriceRepository priceRepository) {
+    this.categoryRepository = categoryRepository;
+    this.productRepository = productRepository;
+    this.priceRepository = priceRepository;
+  }
+
   public static void main(String[] args) {
     SpringApplication.run(ProductServiceApplication.class, args);
   }
@@ -310,4 +332,54 @@ public class ProductServiceApplication {
     */
   /*
   }*/
+  @Override
+  public void run(String... args) throws Exception {
+    /*
+     NOTE 97: we can comment or comment out based on our need if we generate
+         product or category
+        Category category = new Category();
+        category.setName("Apple Device");
+        Category savedCategory = categoryRepository.save(category);
+
+        Price price = new Price();
+        price.setValue(100000);
+        price.setCurrency("INR");
+
+        Product product1 = new Product();
+        product1.setPrice(price);
+        product1.setTitle("iPhone 15 pro max");
+        product1.setDescription("Best iPhone ever.");
+        product1.setImage("IMG");
+        product1.setCategory(category);
+        Product savedProduct = productRepository.save(product1);
+
+        Price price1 = new Price();
+        price1.setValue(100000);
+        price1.setCurrency("INR");
+
+        Product product2 = new Product();
+        product2.setPrice(price1);
+        product2.setTitle("iPhone 15 pro max");
+        product2.setDescription("Best iPhone ever.");
+        product2.setImage("IMG");
+        product2.setCategory(category);
+        Product savedProduct1 = productRepository.save(product2);
+
+        // Need to set different price otherwise we will get error
+
+        Price price2 = new Price();
+        price2.setValue(100000);
+        price2.setCurrency("INR");
+
+        Product product3 = new Product();
+        product3.setPrice(price2);
+        product3.setTitle("iPhone 15 pro max");
+        product3.setDescription("Best iPhone ever.");
+        product3.setImage("IMG");
+        product3.setCategory(category);
+        Product savedProduct2 = productRepository.save(product3);
+
+    */
+
+  }
 }

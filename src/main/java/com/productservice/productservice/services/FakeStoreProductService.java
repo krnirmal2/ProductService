@@ -10,14 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 // import com.productservice.productservice.thirdPartyClients.fakeStoreClient.FakeStoreAdaptor;
 // import io.micrometer.core.instrument.Meter;
 // import org.springframework.http.HttpMethod;
 // import org.springframework.http.ResponseEntity;
-@Primary
+// @Primary
 @Service("fakeStoreProductService") // it means initialise the onject of ProductService
 public class FakeStoreProductService implements ProductService {
   private FakeStoreClientdaptor fakeStoreClientdaptor;

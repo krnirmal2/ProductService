@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
-  @Override
-  Category save(Category category);
+  //  @Override
+  //  Category save(Category category);
 }

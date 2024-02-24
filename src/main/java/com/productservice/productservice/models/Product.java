@@ -1,5 +1,6 @@
 package com.productservice.productservice.models;
 
+import com.productservice.productservice.dtos.GenericProductDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,4 +48,13 @@ public class Product extends BaseModel {
   private Price price;
 
   private int inventoryCount;
+
+  // NOTE 93 : create a converter to produce generic product dto from product
+  public GenericProductDto from(Product product) {
+    GenericProductDto genericProductDto = new GenericProductDto();
+    genericProductDto.setTitle(product.getTitle());
+    genericProductDto.setDescription(product.getDescription());
+    genericProductDto.setImage(product.getImage());
+    return genericProductDto;
+  }
 }
