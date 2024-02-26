@@ -13,7 +13,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
- @Document(indexName = "products") // NOTE 116 : this will help to create Document
+@Document(indexName = "products") // NOTE 116 : this will help to create Document
 public class Product extends BaseModel {
   //  @Id NOTE 54 : comment out for getting error
   //   getting error  Error creating bean with name 'productServiceApplication': Unsatisfied
