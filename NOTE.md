@@ -59,6 +59,19 @@
 
    
     
+
+32. Class Spring Cloud - Discovery Service & API GW
+33. if we need to connect with One Microservice with another service then following step should be follow
+34. 1. run Service Discovery Microservice and also run all the instances of two other microservices
+35. 2. now create a function let say here product service will call UserService so
+36.     prodcut service will write a method to call the user service by Resttemplate with the Url passing to 
+37.     the user service like  this   http://localhost:4040/users/1
+         GenericProductDto genericProductDto = new GenericProductDto();
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<UserDto> userDtoResponseEntity = restTemplate.getForEntity("http://localhost:4040/users/1", UserDto.class);
+    3. now call the endpoint of product service like where above code is implemented and get the response if everything was good
+    4. 
+            return genericProductDto;
 32. // Three way of Dependency Injection
 33. Constructor injection // MOST USED AS WE HAVE IMPLEMENTED IN THE PRODUCT CONTROLLER
 34. Field Injection  // NOT RECOMENDEND USING @AUTOWIRED

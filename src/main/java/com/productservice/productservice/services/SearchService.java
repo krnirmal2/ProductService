@@ -3,6 +3,7 @@ package com.productservice.productservice.services;
 import com.productservice.productservice.dtos.GenericProductDto;
 import com.productservice.productservice.models.Product;
 import com.productservice.productservice.models.SortParam;
+import com.productservice.productservice.repository.OpenSearchProductRepository;
 import com.productservice.productservice.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,13 @@ public class SearchService {
   // NOTE 92: need to integrate repository of product to fetch the required
   // details from db
   private ProductRepository productRepository;
+  private OpenSearchProductRepository openSearchProductRepository;
 
-  public SearchService(ProductRepository productRepository) {
-    this.productRepository = productRepository;
+  //  public SearchService(ProductRepository productRepository) {
+  //    this.productRepository = productRepository;
+  //  }
+  public SearchService(OpenSearchProductRepository openSearchProductRepository) {
+    this.openSearchProductRepository = openSearchProductRepository;
   }
 
   public List<GenericProductDto> searchProducts(
@@ -53,7 +58,9 @@ public class SearchService {
     }
     PageRequest pageRequest = PageRequest.of(pageNumber, itemPerPage, sort);
 
-    List<Product> products = productRepository.findByTitleContaining(query, pageRequest);
+    //    List<Product> products = productRepository.findByTitleContaining(query, pageRequest);
+    // NOTE 117 : use openSearchProductRepository for Elastic search
+    List<Product> products = openSearchProductRepository.findByTitleContaining(query, pageRequest);
     List<GenericProductDto> genericProductDtos = new ArrayList<>();
 
     for (Product product : products) {

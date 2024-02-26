@@ -25,9 +25,17 @@ public class ProductController {
   //  todo  @GetMapping("/products/{id}") // mapped the url and in the curly braces there is
   // parameter or key that need to send
   // from the restApi
+  /* NOTE 119: this code comment because post required Authorization header , so we do required = false
+  @GetMapping("/{id}")
+   public GenericProductDto getProductById(
+       @RequestHeader(HttpHeaders.AUTHORIZATION)
+           String
+               token, // NOTE 19A : connecting two microservice , here we validate the authorisation
+       @PathVariable("id") Long id)
+       throws ProductNotFoundException { // passed the id as variable*/
   @GetMapping("/{id}")
   public GenericProductDto getProductById(
-      @RequestHeader(HttpHeaders.AUTHORIZATION)
+      @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
           String
               token, // NOTE 19A : connecting two microservice , here we validate the authorisation
       @PathVariable("id") Long id)

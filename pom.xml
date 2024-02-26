@@ -112,7 +112,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
         <!--
          NOTE 54 UP : to use the product service as Resource server like from where the things will
          // will get fetched after the product id is hit by user
@@ -120,9 +119,26 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-resource-server</artifactId>
-
         </dependency>
 
+
+        <!-- NOTE 115 :
+        Elastic search Dependency integrating
+        This is another kind of Repository
+         https://mvnrepository.com/artifact/org.opensearch.client/spring-data-opensearch-starter -->
+        <dependency>
+            <groupId>org.opensearch.client</groupId>
+            <artifactId>spring-data-opensearch-starter</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+
+        <!--NOTE 118: Redis Integration with product service and db
+                https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>3.2.2</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>

@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+ @Document(indexName = "products") // NOTE 116 : this will help to create Document
 public class Product extends BaseModel {
   //  @Id NOTE 54 : comment out for getting error
   //   getting error  Error creating bean with name 'productServiceApplication': Unsatisfied
