@@ -3,13 +3,12 @@ package com.productservice.productservice.services;
 import com.productservice.productservice.dtos.FakeStoreProductDtos;
 import com.productservice.productservice.dtos.GenericProductDto;
 import com.productservice.productservice.exceptions.ProductNotFoundException;
-import com.productservice.productservice.security.JWTObject;
 import com.productservice.productservice.security.TokenValidator;
 import com.productservice.productservice.thirdPartyClients.fakeStoreClient.FakeStoreClientdaptor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 // import com.productservice.productservice.thirdPartyClients.fakeStoreClient.FakeStoreAdaptor;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 // @Primary
 @Service("fakeStoreProductService") // it means initialise the onject of ProductService
 public class FakeStoreProductService implements ProductService {
+
   private FakeStoreClientdaptor fakeStoreClientdaptor;
   // NOTE 23 UP: tokenValidator add to connect the userService to productService for
   // validate the token
@@ -47,14 +47,18 @@ public class FakeStoreProductService implements ProductService {
       "https://fakestoreapi.com/products/{id}"; // for variable id we can just use variable in curly
   private RestTemplateBuilder
       restTemplateBuilder; // he RestTemplate class is a central class in Spring that simplifies
+  // NOTE 119 : implement radis Template to get the product from redis cache locally
+  private RedisTemplate<String, FakeStoreProductDtos> redisTemplate;
 
   public FakeStoreProductService(
       FakeStoreClientdaptor fakeStoreClientdaptor,
       RestTemplateBuilder restTemplateBuilder,
-      TokenValidator tokenValidator) {
+      TokenValidator tokenValidator,
+      RedisTemplate redisTemplate) {
     this.fakeStoreClientdaptor = fakeStoreClientdaptor;
     this.restTemplateBuilder = restTemplateBuilder;
     this.tokenValidator = tokenValidator;
+    this.redisTemplate = redisTemplate;
   }
 
   /*
@@ -95,28 +99,58 @@ public class FakeStoreProductService implements ProductService {
     }
   */
 
-  @Override
-  public GenericProductDto getProductById(String token, Long Id) throws ProductNotFoundException {
-    //    NOTE 27 UP:
-    //    create for authenticate token and then send the product details
-    System.out.printf("Authurisation token from header of UserService Microservice is : " + token);
+  /* NOTE 119: comment for implement redis Cache
+   @Override
+    public GenericProductDto getProductById(String token, Long Id) throws ProductNotFoundException {
+      //    NOTE 27 UP:
+      //    create for authenticate token and then send the product details
+  //    System.out.printf("Authurisation token from header of UserService Microservice is : " + token);
 
-    // This is common validation method which we can call in from any place of the project
-    Optional<JWTObject> jwtObjectOptional = tokenValidator.validateToken(token);
-    if (jwtObjectOptional.isEmpty()) {
-      // reject the token
-      return null;
-    }
-    // Extract the parameter from the token for used to validate this
-    JWTObject jwtObject = jwtObjectOptional.get();
-    Long userId = jwtObject.getUserId();
-    /*
-    if(specialId.isPrsent(Id) && userId != 10){
-       // don't want to allow this requeset
-     }
+      // This is common validation method which we can call in from any place of the project
      */
-    return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(
-        fakeStoreClientdaptor.getProductById(Id));
+  /* Optional<JWTObject> jwtObjectOptional = tokenValidator.validateToken(token);
+  if (jwtObjectOptional.isEmpty()) {
+    // reject the token
+    return null;
+  }*/
+  /*
+      // Extract the parameter from the token for used to validate this
+  //    JWTObject jwtObject = jwtObjectOptional.get();
+  //    Long userId = jwtObject.getUserId();
+      */
+  /*
+  if(specialId.isPrsent(Id) && userId != 10){
+     // don't want to allow this requeset
+   }
+   */
+  /*
+      return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(
+          fakeStoreClientdaptor.getProductById(Id));
+    }
+  */
+
+  @Override
+  public GenericProductDto getProductById(String authToken, Long id)
+      throws ProductNotFoundException {
+
+    // Asks redis to get the id from the "PRODUCTS" tables and store the object fakeStoreProductDto
+    FakeStoreProductDtos fakeStoreProductDto =
+        (FakeStoreProductDtos) redisTemplate.opsForHash().get("PRODUCTS", id);
+
+    if (fakeStoreProductDto != null) {
+
+      // if cache is not miss if we found inthe cache itself then return it else
+      return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDto);
+    }
+
+    // if cache miss then get it from the Database and then save it to redis cache and then return
+    // it
+    fakeStoreProductDto = fakeStoreClientdaptor.getProductById(id);
+
+    // NOTE 120: Save the fakestore product in redis with key value pair
+    redisTemplate.opsForHash().put("PRODUCTS", id, fakeStoreProductDto);
+
+    return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDto);
   }
 
   private static GenericProductDto convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(

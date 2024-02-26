@@ -57,7 +57,21 @@
            
           
 
-   
+
+
+
+
+Class -- Implementing radis cache
+![img_2.png](img_2.png)
+https://search-productservice-o4yxorelrfc42y6nqt7zozjaam.eu-north-1.es.amazonaws.com
+  # Before radis cache the time taken by the postman 
+    ![img_1.png](img_1.png)
+   # Add the dependendency of the redis 
+   # install the radis from the https://redis.io/docs/install/install-redis/ 
+     with mentions steps for local environement setup other wise it will give error
+   # then write the code in where you need to require redis from imporve the 
+     percentage of performance and then run
+   # also you can create new production enviornement to connect with redis on Aws 
     
 32. // Three way of Dependency Injection
 33. Constructor injection // MOST USED AS WE HAVE IMPLEMENTED IN THE PRODUCT CONTROLLER

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/products") // this is the base endpoint for all the controller in this class
 public class ProductController {
   private ProductService productService;
+
   // constructor injection
   public ProductController(
       @Qualifier("fakeStoreProductService") // NOTE 77: remove this when we want to use @primary
@@ -27,7 +28,7 @@ public class ProductController {
   // from the restApi
   @GetMapping("/{id}")
   public GenericProductDto getProductById(
-      @RequestHeader(HttpHeaders.AUTHORIZATION)
+      @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
           String
               token, // NOTE 19A : connecting two microservice , here we validate the authorisation
       @PathVariable("id") Long id)
