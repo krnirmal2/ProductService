@@ -9,7 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+// import static
+// com.productservice.productservice.thirdPartyClients.fakeStoreClient.FakeStoreClientdaptor.convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer;
 
 // import com.productservice.productservice.thirdPartyClients.fakeStoreClient.FakeStoreAdaptor;
 // import io.micrometer.core.instrument.Meter;
@@ -124,33 +129,59 @@ public class FakeStoreProductService implements ProductService {
    }
    */
   /*
-      return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(
-          fakeStoreClientdaptor.getProductById(Id));
+        return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(
+            fakeStoreClientdaptor.getProductById(Id));
+      }
+
+
+   /* @Override
+    public GenericProductDto getProductById(String authToken, Long id)
+        throws ProductNotFoundException {
+
+      // Asks redis to get the id from the "PRODUCTS" tables and store the object fakeStoreProductDto
+      FakeStoreProductDtos fakeStoreProductDto =
+          (FakeStoreProductDtos) redisTemplate.opsForHash().get("PRODUCTS", id);
+
+      if (fakeStoreProductDto != null) {
+
+        // if cache is not miss if we found inthe cache itself then return it else
+        return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDto);
+      }
+
+      // if cache miss then get it from the Database and then save it to redis cache and then return
+      // it
+      fakeStoreProductDto = fakeStoreClientdaptor.getProductById(id);
+
+      // NOTE 120: Save the fakestore product in redis with key value pair
+      redisTemplate.opsForHash().put("PRODUCTS", id, fakeStoreProductDto);
+
+      return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDto);
     }
   */
 
   @Override
-  public GenericProductDto getProductById(String authToken, Long id)
-      throws ProductNotFoundException {
+  public GenericProductDto getProductById(String token, Long Id) throws ProductNotFoundException {
+    System.out.printf("Authurisation token from header of UserService Microservice is : " + token);
+    // RestTemplate
+    RestTemplate restTemplate = restTemplateBuilder.build(); // for rest Api get/post/delete option
 
-    // Asks redis to get the id from the "PRODUCTS" tables and store the object fakeStoreProductDto
-    FakeStoreProductDtos fakeStoreProductDto =
-        (FakeStoreProductDtos) redisTemplate.opsForHash().get("PRODUCTS", id);
+    // get call put url , response, variable
+    ResponseEntity<FakeStoreProductDtos> responseEntity =
+        restTemplate.getForEntity(getProductUrl, FakeStoreProductDtos.class, Id);
 
-    if (fakeStoreProductDto != null) {
+    //  NOTE 2 :      step2
+    // so as we get the fakeStore product dtos as more tight couple
+    // to do it more loosly coupled lets  add one more extra abstract layer
+    // so that next we can change what ever next requirement come in product
+    // add one more extra dtos for generic pupose and passed the product dtos
+    FakeStoreProductDtos fakeStoreProductDtos = new FakeStoreProductDtos();
 
-      // if cache is not miss if we found inthe cache itself then return it else
-      return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDto);
+    fakeStoreProductDtos = responseEntity.getBody();
+    if (fakeStoreProductDtos == null) {
+      throw new ProductNotFoundException(Id);
     }
 
-    // if cache miss then get it from the Database and then save it to redis cache and then return
-    // it
-    fakeStoreProductDto = fakeStoreClientdaptor.getProductById(id);
-
-    // NOTE 120: Save the fakestore product in redis with key value pair
-    redisTemplate.opsForHash().put("PRODUCTS", id, fakeStoreProductDto);
-
-    return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDto);
+    return convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDtos);
   }
 
   private static GenericProductDto convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(

@@ -36,6 +36,7 @@ public class ProductController {
 
     // call the FakeStoreProductService  getProductById() method service
 
+    System.out.println("call routing this server by Api gateWAy");
     return productService.getProductById(token, id);
   }
 
