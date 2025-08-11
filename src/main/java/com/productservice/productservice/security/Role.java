@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 // @JsonDeserialize(as = Role.class)
-public class Role extends BaseModel {
+public class Role extends BaseModel { // this  model copy from userservice but we should put this in some common places (common repo)
   private String role;
 }

@@ -1,16 +1,15 @@
 package com.productservice.productservice;
 
-import com.productservice.productservice.inheritanceRelationsInDB.singletable.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
 
 @SpringBootApplication
 @EnableDiscoveryClient
 // @RestController
 // public class ProductServiceApplication implements CommandLineRunner {
-public
-class ProductServiceApplication { // NOTE 120: Remove Command line Runner and runArgs method for
+public class ProductServiceApplication { // NOTE 120: Remove Command line Runner and runArgs method for
   // running Eureka Server
   /*
          implements CommandLineRunner
@@ -74,8 +73,10 @@ class ProductServiceApplication { // NOTE 120: Remove Command line Runner and ru
     }
   */
   public static void main(String[] args) {
-    SpringApplication.run(ProductServiceApplication.class, args);
+    SpringApplication.run(ProductServiceApplication.class);
+
   }
+
   /*
   /*  //used to save Mentor value in mentor table of table per table Inheritance
       Mentor mentor = new Mentor();
