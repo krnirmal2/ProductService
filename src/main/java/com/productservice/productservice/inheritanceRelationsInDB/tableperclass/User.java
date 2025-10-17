@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 // NOTE 44:
-// @MappedSuperclass// rermoved the
+// @MappedSuperclass// rermoved this as we have to create the parent class
 @Inheritance(
     strategy = InheritanceType.TABLE_PER_CLASS) // strategy of inheritance is table per class
 @Entity(name = "tpc_user")

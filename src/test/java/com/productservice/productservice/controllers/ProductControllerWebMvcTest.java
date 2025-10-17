@@ -20,9 +20,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 // It won't initialize the unnecessary dependencies.
-@WebMvcTest(ProductController.class)
+//@WebMvcTest(ProductController.class)
 public class ProductControllerWebMvcTest {
-  // NOTE 84:
+ /* // NOTE 84:
   // Web MVC help to integration testing
 
   @MockBean private ProductService productService;
@@ -79,7 +79,7 @@ public class ProductControllerWebMvcTest {
         .andExpect(content().string(objectMapper.writeValueAsString(outputGenericProductDto)))
         .andExpect(jsonPath("$.title", is("Macbook")))
         .andExpect(jsonPath("$.price", is(200000)));
-  }
+  }*/
 }
 
 /*

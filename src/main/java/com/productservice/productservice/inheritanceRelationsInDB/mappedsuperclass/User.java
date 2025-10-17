@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@MappedSuperclass
+@MappedSuperclass // As we not required the parent class user  so we used mapped
 public class User {
   // NOTE 41:
   // practical related difrerent type of

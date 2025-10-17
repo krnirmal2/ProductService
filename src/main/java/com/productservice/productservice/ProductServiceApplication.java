@@ -1,16 +1,19 @@
 package com.productservice.productservice;
 
 import com.productservice.productservice.inheritanceRelationsInDB.singletable.*;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-
+//@EnableJpaRepositories(basePackages = "com.productservice.productservice.repository.ProductRepository")
+//@EnableElasticsearchRepositories(basePackages = "com.productservice.productservice.repository.OpenSearchProductRepository")
 @SpringBootApplication
-@EnableDiscoveryClient
+
 // @RestController
 // public class ProductServiceApplication implements CommandLineRunner {
 public
-class ProductServiceApplication { // NOTE 120: Remove Command line Runner and runArgs method for
+class ProductServiceApplication implements CommandLineRunner { // NOTE 120: Remove Command line Runner and runArgs method for
+
   // running Eureka Server
   /*
          implements CommandLineRunner
@@ -35,14 +38,11 @@ class ProductServiceApplication { // NOTE 120: Remove Command line Runner and ru
     private UserRepository userRepository;
   //  private StudentRepository studentRepository;
   */
-  /* NOTE
-      Table per class example
-  @Autowired
-   ProductServiceApplication(@Qualifier("tpc_mentorRepository") MentorRepository mentorRepository,
-   UserRepository userRepository){
-     this.mentorRepository = mentorRepository;
-     this.userRepository = userRepository;
-   }*/
+
+    @Override
+    public void run(String... args) throws Exception {
+
+    }
   /*
 
   //NOTE 54:
@@ -73,10 +73,7 @@ class ProductServiceApplication { // NOTE 120: Remove Command line Runner and ru
       this.priceRepository = priceRepository;
     }
   */
-  public static void main(String[] args) {
-    SpringApplication.run(ProductServiceApplication.class, args);
-  }
-  /*
+
   /*  //used to save Mentor value in mentor table of table per table Inheritance
       Mentor mentor = new Mentor();
       mentor.setAvgRating(8.2);
@@ -98,7 +95,6 @@ class ProductServiceApplication { // NOTE 120: Remove Command line Runner and ru
           for (User user1 : users) {
               System.out.println(user1.toString());
           }
-  */
   /*
 
       // NOTE: 52

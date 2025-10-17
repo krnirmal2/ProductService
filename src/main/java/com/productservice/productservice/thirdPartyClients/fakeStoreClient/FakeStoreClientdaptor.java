@@ -83,7 +83,7 @@ public class FakeStoreClientdaptor { // NOTE 33: remove the ThirdPartyInterface 
 
     fakeStoreProductDtos = responseEntity.getBody();
     if (fakeStoreProductDtos == null) {
-      throw new ProductNotFoundException(Id);
+      throw new ProductNotFoundException(Id);// own custom exception
     }
     //        return
     // convertFakeStoreProductDtoToGenericProductDtoForAbstractionLayer(fakeStoreProductDtos);

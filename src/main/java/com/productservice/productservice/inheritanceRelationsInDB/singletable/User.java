@@ -11,6 +11,7 @@ import lombok.ToString;
 // @MappedSuperclass// rermoved the
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) // strategy of inheritance is singletable
 @Entity(name = "st_user")
+@Discriminator()
 public class User {
   // practical related difrerent type of
   // inheritance here @MappedSuperclass has been used

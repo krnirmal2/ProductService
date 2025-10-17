@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository("productRepo")
+@Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
   // NOTE 68:
   // get all the product method using query

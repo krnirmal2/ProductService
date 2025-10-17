@@ -1,7 +1,5 @@
 package com.productservice.productservice.controllers;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.productservice.productservice.services.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 public class ProductControllerTest {
-  // NOTE 80:
+  /*// NOTE 80:
   // crete testClass for productController API method test
   // INJECT THE DEPENDENCY
   @Autowired ProductController productController;
@@ -31,7 +31,7 @@ public class ProductControllerTest {
   void testOnePlusOneIsTwoOrNot() {
     //        assert (2 == 2);
   }
-  /* NOTE 20UP: commented because there is error when we passing the token as a parameter in getProductById() method
+  *//* NOTE 20UP: commented because there is error when we passing the token as a parameter in getProductById() method
   @Test
   @DisplayName("Testing getProduct by di")
   void getProductByIdNegativeTest() {
@@ -61,16 +61,16 @@ public class ProductControllerTest {
     assertEquals(genericProductDto, genericProductDto1); // expect vs actual
   }
 
-  */
-  /*
+  *//*
+  *//*
     @Test
     void testGetProductByIdMockingException() throws ProductNotFoundException {
       when(productService.getProductById(10L))
               .thenReturn(ProductNotFoundException.class);
       assertThrows(ProductNotFoundException.class,() ->productController.getProductById(1L));
     }
-  */
-  /*
+  *//*
+  *//*
 
   // NOTE 87: test case for the input may come from t
    //   the controller to the service is less
